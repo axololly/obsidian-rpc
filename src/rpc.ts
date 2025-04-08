@@ -1,11 +1,16 @@
 import { Client } from "discord-rpc";
 import { getLogger } from "./logging";
-import { MarkdownFileInfo, MarkdownView, WorkspaceLeaf } from "obsidian";
+import { WorkspaceLeaf } from "obsidian";
 
 let logger = getLogger("rpc-client");
 
+const NORMAL = "https://github.com/axololly/obsidian-rpc/raw/main/icon.png";
+const PAUSED = "https://github.com/axololly/obsidian-rpc/raw/main/icon-paused.png";
+
 export class RPC {
     client: Client;
+    idlingTimeout?: NodeJS.Timeout;
+    lastOpenedFile?: WorkspaceLeaf;
     openedSince: number;
 
     constructor (openedSince: number) {
@@ -17,7 +22,7 @@ export class RPC {
 
         this.openedSince = openedSince;
 
-        this.client.login({ clientId: "773953458901352488" });
+        this.client.login({ clientId: "1359134847746183229" });
     }
 
     onChangeFile(leaf: WorkspaceLeaf | null) {
@@ -41,16 +46,76 @@ export class RPC {
         }
 
         this.client.setActivity({
-            largeImageKey: "https://github.com/axololly/obsidian-rpc/tree/main/icon.png",
+            largeImageKey: NORMAL,
             largeImageText: "Editing an Obsidian vault.",
-            details: `Editing: ${file.name}`,
+            details: `Editing: ${file.basename}`,
             state: `Working in: ${file.vault.getName()}`,
             startTimestamp: this.openedSince
         });
+
+        logger.debug([
+            "Set normal activity.",
+            `Details: "Editing: ${file.basename}"`,
+            `State: "Working in: ${file.vault.getName()}"`,
+            `Opened since: ${new Date(this.openedSince * 1000).toLocaleString()} (${this.openedSince})`
+        ].join("\n"));
+    }
+
+    onChangeFocus(isFocused: boolean) {
+        if (isFocused) {
+            clearTimeout(this.idlingTimeout);
+            return;
+        }
+        
+        this.idlingTimeout = setTimeout(
+            () => {
+                this.onIdle();
+            },
+            60e3
+        );
+    }
+
+    onIdle() {
+        if (!this.lastOpenedFile) {
+            logger.warning("Last opened file was undefined when attempting to update RPC on idling. RPC was not updated.");
+            return;
+        }
+
+        let info = this.lastOpenedFile!.view.app.workspace.activeEditor;
+
+        if (!info) {
+            logger.warning("No active editor was found when attempting to update RPC on idling. RPC was not updated.");
+            return;
+        }
+
+        let file = info.file;
+
+        if (!file) {
+            logger.warning("No file was found when attempting to update RPC on idling. RPC was not updated.");
+            return;
+        }
+        
+        this.client.setActivity({
+            largeImageKey: NORMAL,
+            largeImageText: "Editing an Obsidian vault.",
+            details: `Editing: ${file.basename}`,
+            state: `Idling in: ${file.vault.getName()}`,
+            startTimestamp: this.openedSince
+        });
+
+        logger.debug([
+            "Set idling activity.",
+            `Details: "Editing: ${file.basename}"`,
+            `State: "Idling in: ${file.vault.getName()}"`,
+            `Opened since: ${new Date(this.openedSince * 1e3).toLocaleString()} (${this.openedSince})`
+        ].join("\n"));
     }
 
     onUnload() {
-        logger.info("Destroying client.");
+        logger.info("Unloading extension.");
+        
         this.client.destroy();
+
+        clearTimeout(this.idlingTimeout);
     }
 }

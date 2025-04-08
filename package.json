@@ -4,6 +4,7 @@
   },
   "devDependencies": {
     "@types/discord-rpc": "^4.0.9",
+    "@types/node": "^22.14.0",
     "discord-rpc": "^4.0.1",
     "esbuild": "^0.25.2"
   }

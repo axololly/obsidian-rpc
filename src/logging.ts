@@ -74,7 +74,7 @@ const PURPLE = '\x1b[35m';
 const RESET = '\x1b[0m';
 const WHITE = '\x1b[37m';
 
-let MINIMUM_LOG_LEVEL = LogLevel.Info;
+let MINIMUM_LOG_LEVEL = LogLevel.Debug;
 
 export function setMinLevel(level: LogLevel) {
     MINIMUM_LOG_LEVEL = level;
