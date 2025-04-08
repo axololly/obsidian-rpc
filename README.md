@@ -1,6 +1,6 @@
 # Obsidian RPC Extension
 
-[![Current Version](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fgithub.com%2Faxololly%2Fobsidian-rpc%2Fraw%2Fmain%2Fmanifest.json&query=%24.version&label=version&color=default)](https://github.com/axololly/obsidian-rpc/releases/tag/0.1.0)
+[![Current Version](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fgithub.com%2Faxololly%2Fobsidian-rpc%2Fraw%2Fmain%2Fmanifest.json&query=%24.version&label=version&color=default)](https://github.com/axololly/obsidian-rpc/releases/tag/v0.1.0)
 
 I saw a plugin on the community plugins section that did exactly this, but it used an outdated logo, so I figured I'd put together something that just about fits my needs, which is this project. With much of it being a dumbed-down version of my [Visual Studio Code extension](https://github.com/axololly/discode/tree/main), I now can display the current document and vault on my Discord account's rich presence, complete with a pause screen for whenever I go idle for longer than a minute.
 
