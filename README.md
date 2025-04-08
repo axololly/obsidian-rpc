@@ -11,7 +11,7 @@ I saw a plugin on the community plugins section that did exactly this, but it us
 
 This uses `esbuild` to compile all the TypeScript files into a single file for ease of transfer, so if you want to clone and build from source, install it as a depedency and run the [`build.js`](./build.js) file with `node`, which will output a single JavaScript file called `main.js`. This is the extension.
 
-> [!info]
+> [!note] Info
 > If you _don't_ want to build it yourself and just want to get straight to the action, you can install it from the releases on the side.
 
 You can now take that file and in your designated vault (denoted as `~`):
