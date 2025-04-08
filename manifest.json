@@ -1,0 +1,9 @@
+{
+    "id": "obsidian-rpc-extension",
+    "name": "Discord RPC Extension",
+    "version": "0.1.0",
+    "minAppVersion": "0.15.0",
+    "description": "Updates your Discord activity to show your friends what you're working on in Obsidian.",
+    "author": "axololly",
+    "isDesktopOnly": true
+}

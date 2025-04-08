@@ -1,0 +1,10 @@
+{
+  "dependencies": {
+    "obsidian": "^1.8.7"
+  },
+  "devDependencies": {
+    "@types/discord-rpc": "^4.0.9",
+    "discord-rpc": "^4.0.1",
+    "esbuild": "^0.25.2"
+  }
+}
